@@ -1,0 +1,21 @@
+{
+  "name": "@phone/web",
+  "private": true,
+  "scripts": {
+    "dev": "node --env-file-if-exists=../../.env ../../node_modules/next/dist/bin/next dev",
+    "build": "next build",
+    "start": "node --env-file-if-exists=../../.env ../../node_modules/next/dist/bin/next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "geist": "^1.5.1",
+    "next": "16.4.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0"
+  }
+}

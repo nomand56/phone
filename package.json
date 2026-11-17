@@ -1,0 +1,20 @@
+{
+  "name": "ai-receptionist",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "engines": { "node": "^24.0.0 || ^26.0.0" },
+  "scripts": {
+    "dev:api": "npm run dev --workspace @phone/api",
+    "dev:web": "npm run dev --workspace @phone/web",
+    "build": "npm run build --workspaces",
+    "lint": "biome lint .",
+    "typecheck": "npm run typecheck --workspaces",
+    "db:migrate": "npm run db:migrate --workspace @phone/api",
+    "db:seed": "npm run db:seed --workspace @phone/api",
+    "test": "npm run test --workspace @phone/api"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.0",
+    "typescript": "~5.9.3"
+  }
+}
