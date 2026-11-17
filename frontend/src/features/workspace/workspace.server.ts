@@ -1,13 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
-
-export interface Tenant {
-  id: string;
-  displayName: string;
-  country: string;
-  timeZone: string;
-  status: string;
-}
+import type { Tenant } from "./workspace.types";
 
 type WorkspaceResult = { tenant: Tenant; state: "ready" } | {
   tenant: null;

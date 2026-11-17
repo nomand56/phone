@@ -1,6 +1,6 @@
 import { Injectable, type OnModuleDestroy } from "@nestjs/common";
 import { Pool, type PoolClient } from "pg";
-import { requiredEnv } from "./config.js";
+import { requiredEnv } from "../../config/env.js";
 
 @Injectable()
 export class Database implements OnModuleDestroy {

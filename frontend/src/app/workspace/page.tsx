@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-import { readWorkspace } from "./session";
-import { SignOut } from "./sign-out";
-import { WorkspaceSettings } from "./workspace-settings";
+import { SignOut } from "@/features/auth/sign-out";
+import { WorkspaceSettings } from "@/features/workspace/workspace-settings";
+import { readWorkspace } from "@/features/workspace/workspace.server";
 
 export default async function WorkspacePage() {
   const { tenant, state } = await readWorkspace();

@@ -1,5 +1,5 @@
 import { Client } from "pg";
-import { hashPassword } from "../dist/password.js";
+import { hashPassword } from "../dist/modules/auth/password.js";
 
 if (process.env.NODE_ENV === "production") throw new Error("Demo seed runs in development only.");
 const connectionString = process.env.MIGRATION_DATABASE_URL;

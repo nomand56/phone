@@ -1,44 +1,9 @@
 import "reflect-metadata";
-import {
-  Controller,
-  Get,
-  Module,
-  ServiceUnavailableException,
-} from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { type NextFunction, type Request, type Response, json } from "express";
-import { AuthController, AuthService } from "./auth.js";
-import { webOrigin } from "./config.js";
-import { Database } from "./database.js";
-import { RedisStore } from "./redis-store.js";
-import { TenantsController } from "./tenants.js";
-
-@Controller("health")
-class HealthController {
-  constructor(private readonly database: Database, private readonly redis: RedisStore) {}
-
-  @Get("live")
-  liveness() {
-    return { status: "ok" };
-  }
-
-  @Get("ready")
-  async readiness() {
-    try {
-      await Promise.all([this.database.pool.query("SELECT 1 FROM sessions LIMIT 0"), this.redis.ping()]);
-    } catch {
-      throw new ServiceUnavailableException("Service dependencies are unavailable.");
-    }
-    return { status: "ok" };
-  }
-}
-
-@Module({
-  controllers: [HealthController, AuthController, TenantsController],
-  providers: [Database, RedisStore, AuthService],
-})
-class AppModule {}
+import { AppModule } from "./app.module.js";
+import { webOrigin } from "./config/env.js";
 
 export async function createApp(): Promise<NestExpressApplication> {
   webOrigin();

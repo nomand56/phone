@@ -4,7 +4,7 @@ import { test } from "node:test";
 import { setTimeout } from "node:timers/promises";
 import { Client } from "pg";
 import { createApp } from "../dist/app.js";
-import { hashPassword } from "../dist/password.js";
+import { hashPassword } from "../dist/modules/auth/password.js";
 
 test("authenticated workspace reads and writes stay isolated between two tenants", async () => {
   const { DATABASE_URL, MIGRATION_DATABASE_URL, WEB_ORIGIN } = process.env;

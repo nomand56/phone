@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { readWorkspace } from "./workspace/session";
-import { SignIn } from "./sign-in";
+import { SignIn } from "@/features/auth/sign-in";
+import { readWorkspace } from "@/features/workspace/workspace.server";
 
 export default async function Home() {
   const { tenant } = await readWorkspace();

@@ -4,7 +4,7 @@ import { Client } from "pg";
 
 const connectionString = process.env.MIGRATION_DATABASE_URL;
 if (!connectionString) throw new Error("MIGRATION_DATABASE_URL is required.");
-const directory = new URL("../../db/migrations/", import.meta.url);
+const directory = new URL("../database/migrations/", import.meta.url);
 const files = (await readdir(directory)).filter((name) => /^\d+_.+\.sql$/.test(name)).sort();
 const client = new Client({ connectionString, connectionTimeoutMillis: 5000 });
 

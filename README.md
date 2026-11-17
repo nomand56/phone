@@ -2,13 +2,27 @@
 
 The first build provides a Next.js owner workspace, a NestJS API, PostgreSQL migrations and tenant isolation, and Redis-backed sign-in limits. The two seeded Canadian businesses let you sign in, edit each business profile separately, and sign out. See [PLAN.md](PLAN.md) for the SRS delivery sequence.
 
-- [`frontend/`](frontend/) contains the Next.js app.
-- [`backend/`](backend/) contains the NestJS API and its integration tests.
-- [`db/`](db/) contains the PostgreSQL migrations. Run dependency installation and Docker Compose from the project root.
+## Project layout
+
+```text
+frontend/
+  src/app/                Next.js routes, layout, and global styles
+  src/features/           Sign-in, sign-out, and workspace code
+backend/
+  src/modules/            Auth, tenants, and health modules
+  src/infrastructure/     PostgreSQL and Redis connections
+  src/config/             Environment configuration
+  src/http/               Shared HTTP checks
+  database/               PostgreSQL bootstrap and migrations
+  scripts/                Migration and demo seed commands
+  test/                   API integration tests
+```
+
+Run dependency installation and Docker Compose from the project root.
 
 ## Run locally
 
-Use Node.js 24 or 26 and Docker Compose. Existing local PostgreSQL and Redis services also work. Apply `db/local-init.sql` as the migration user for a disposable local database if you are using your own PostgreSQL instance.
+Use Node.js 24 or 26 and Docker Compose. Existing local PostgreSQL and Redis services also work. Apply `backend/database/local-init.sql` as the migration user for a disposable local database if you are using your own PostgreSQL instance.
 
 ```powershell
 Copy-Item .env.example .env

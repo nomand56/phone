@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import type { ReactNode } from "react";
-import "./styles.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "AI Receptionist",

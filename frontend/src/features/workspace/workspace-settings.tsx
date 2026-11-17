@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
-import type { Tenant } from "./session";
+import type { Tenant } from "./workspace.types";
 
 const commonZones = [
   "America/Vancouver", "America/Edmonton", "America/Regina", "America/Winnipeg",
