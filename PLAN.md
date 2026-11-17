@@ -77,4 +77,4 @@ Before general availability, pass AT-01–24, map every mandatory requirement to
 
 ## First work session
 
-Scaffold the TypeScript workspace with `apps/web` and `apps/api`, local PostgreSQL and Redis, and CI checks. Add the tenant and membership migration, seed two fictional businesses, and write the first two-tenant authorization test. Then add agent draft and publish support and connect the signed voice webhook to one manually assigned test number for the first handset call.
+Scaffold the TypeScript workspace with `frontend` and `backend`, local PostgreSQL and Redis, and CI checks. Add the tenant and membership migration, seed two fictional businesses, and write the first two-tenant authorization test. Then add agent draft and publish support and connect the signed voice webhook to one manually assigned test number for the first handset call.
