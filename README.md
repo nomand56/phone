@@ -45,6 +45,22 @@ npm run dev:web
 
 Open [http://localhost:3000](http://localhost:3000) and sign in as `owner@cedar-auto.example` or `owner@harbour-garage.example` with your `DEMO_PASSWORD`. The API readiness route is `http://127.0.0.1:4000/health/ready`. Restart the API after backend source changes.
 
+## Receptionist setup
+
+Open [Create an account](http://localhost:3000/signup) and enter an email address. Local loopback development can display the verification link directly when `AUTH_LOCAL_VERIFICATION=true`. Production registration uses Resend with `RESEND_API_KEY` and `AUTH_FROM_EMAIL` set on the API.
+
+After verification, answer the questions about your current call handling, choose your agent’s tasks, and train it from a public website or business description. The voice preview offers device speech and a text fallback. Set `OPENAI_API_KEY` on the API to enable the OpenAI Realtime microphone preview. Setup progress is saved as you move through the screens.
+
+### Number selection and checkout
+
+With `ONBOARDING_SANDBOX=true` on loopback development, the number search uses fictional numbers and checkout saves a local test completion. No external purchases or card details are involved.
+
+For Stripe and Twilio activation, set `ONBOARDING_SANDBOX=false`. Configure the Stripe publishable key, secret key, webhook secret, recurring monthly and yearly prices, and customer portal. Deliver `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `customer.subscription.updated`, and `customer.subscription.deleted` to `POST /webhooks/stripe` on the public API. Stripe Checkout collects payment details and applies a seven-day trial. The API verifies the subscription before provisioning a number.
+
+Twilio inventory uses Canadian voice-enabled local numbers. Configure the account SID and auth token, set `TWILIO_PUBLIC_ORIGIN` to the API’s public HTTPS origin, and enable Conversation Relay on the Twilio account. The ingress must support `POST /webhooks/twilio/*` and WebSocket upgrades at `/voice/sessions`. Add the provider regulatory bundle and address SIDs when applicable. Set `TWILIO_PROVISIONING_ENABLED=true` after verifying this configuration. Only a live, eligible Stripe subscription can purchase a number. The checkout screen can retry pending activation or let the owner choose a replacement if the selected number becomes unavailable.
+
+The live agent answers from its business information and saves opted-in callback messages under **Caller messages**. Routing, booking, and CRM selections are saved as setup goals. Connecting those services is separate. Once a number is active, test it by dialing directly before setting forwarding with your carrier.
+
 ## Checks
 
 ```powershell
@@ -60,4 +76,4 @@ The integration test requires migrated development databases and Redis. It creat
 
 The API uses `DATABASE_URL` for the restricted `phone_app` role and `REDIS_URL` for rate limits. Keep `MIGRATION_DATABASE_URL` available to migration jobs only. Use an HTTPS `WEB_ORIGIN` in production and set `API_ORIGIN` to the NestJS service address at Next.js build and runtime. The API defaults to loopback; use `API_HOST` when deploying behind private ingress. Apply ingress rate limits at the trusted edge where the original client IP is available.
 
-This build uses seeded verified owners. Signup, email verification, password recovery, agent publishing, voice, billing, and deployment hardening follow the delivery plan.
+Demo owners can still sign in with the seed password. Password recovery and production deployment hardening follow the delivery plan.

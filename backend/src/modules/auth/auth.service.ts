@@ -7,6 +7,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { createHash, randomBytes } from "node:crypto";
+import type { PoolClient } from "pg";
 import { Database } from "../../infrastructure/database/database.js";
 import { RedisStore } from "../../infrastructure/redis/redis-store.js";
 import { verifyPassword } from "./password.js";
@@ -45,8 +46,7 @@ export class AuthService {
       throw new UnauthorizedException("Email or password is incorrect.");
     }
 
-    const token = randomBytes(32).toString("base64url");
-    await this.database.transaction(async (client) => {
+    return this.database.transaction(async (client) => {
       await client.query("SELECT set_config('app.user_id', $1, true)", [user.id]);
       const { rows: [membership] } = await client.query<{ tenant_id: string }>(
         `SELECT tenant_id FROM tenant_memberships WHERE user_id = $1 AND revoked_at IS NULL
@@ -55,14 +55,19 @@ export class AuthService {
       );
       if (!membership) throw new UnauthorizedException("Email or password is incorrect.");
 
-      if (previousToken) {
-        await client.query("DELETE FROM sessions WHERE token_hash = $1", [tokenDigest(previousToken)]);
-      }
-      await client.query(
-        "INSERT INTO sessions (token_hash, tenant_id, user_id, expires_at) VALUES ($1, $2, $3, $4)",
-        [tokenDigest(token), membership.tenant_id, user.id, new Date(Date.now() + SESSION_TTL_SECONDS * 1000)],
-      );
+      return this.issueSession(client, { user_id: user.id, tenant_id: membership.tenant_id }, previousToken);
     });
+  }
+
+  async issueSession(client: PoolClient, session: Session, previousToken?: string): Promise<string> {
+    const token = randomBytes(32).toString("base64url");
+    if (previousToken) {
+      await client.query("DELETE FROM sessions WHERE token_hash = $1", [tokenDigest(previousToken)]);
+    }
+    await client.query(
+      "INSERT INTO sessions (token_hash, tenant_id, user_id, expires_at) VALUES ($1, $2, $3, $4)",
+      [tokenDigest(token), session.tenant_id, session.user_id, new Date(Date.now() + SESSION_TTL_SECONDS * 1000)],
+    );
     return token;
   }
 

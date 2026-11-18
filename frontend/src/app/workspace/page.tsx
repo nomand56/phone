@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SignOut } from "@/features/auth/sign-out";
 import { WorkspaceSettings } from "@/features/workspace/workspace-settings";
@@ -24,6 +25,10 @@ export default async function WorkspacePage() {
             <div className="workspace-title">
               <h1>{tenant.displayName}</h1>
               <span className="status">{tenant.status.replaceAll("_", " ")}</span>
+            </div>
+            <div className="workspace-actions">
+              <Link className="primary action-link" href="/onboarding">Receptionist setup</Link>
+              <Link className="secondary action-link" href="/workspace/messages">Caller messages</Link>
             </div>
             <section className="settings" aria-labelledby="settings-title">
               <h2 id="settings-title">Business profile</h2>

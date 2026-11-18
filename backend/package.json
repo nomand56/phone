@@ -9,21 +9,26 @@
     "start": "node --env-file-if-exists=../.env dist/main.js",
     "db:migrate": "node --env-file-if-exists=../.env scripts/migrate.mjs",
     "db:seed": "npm run build && node --env-file-if-exists=../.env scripts/seed.mjs",
-    "test": "npm run build && node --env-file-if-exists=../.env --test test/tenant.test.mjs"
+    "test": "npm run build && node --env-file-if-exists=../.env --test \"test/*.test.mjs\""
   },
   "dependencies": {
     "@nestjs/common": "12.5.1",
     "@nestjs/core": "12.5.1",
     "@nestjs/platform-express": "12.5.1",
+    "cheerio": "1.2.0",
     "express": "^5.2.1",
     "pg": "8.23.1",
     "redis": "6.3.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "stripe": "23.1.0",
+    "twilio": "6.3.0",
+    "ws": "8.23.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
-    "@types/pg": "^8.15.0"
+    "@types/pg": "^8.15.0",
+    "@types/ws": "8.18.2"
   }
 }

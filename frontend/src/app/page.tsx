@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SignIn } from "@/features/auth/sign-in";
 import { readWorkspace } from "@/features/workspace/workspace.server";
@@ -15,6 +16,7 @@ export default async function Home() {
       <section className="entry-card" aria-labelledby="entry-title">
         <h1 id="entry-title">Sign in to your workspace</h1>
         <SignIn />
+        <p className="entry-footer">New here? <Link href="/signup">Create an account</Link></p>
       </section>
     </main>
   );

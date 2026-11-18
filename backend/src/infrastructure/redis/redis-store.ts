@@ -25,6 +25,14 @@ export class RedisStore implements OnModuleInit, OnModuleDestroy {
     await this.client.ping();
   }
 
+  async cache(key: string, value: string, seconds: number): Promise<void> {
+    await this.client.set(key, value, { expiration: { type: "EX", value: seconds } });
+  }
+
+  async take(key: string): Promise<string | null> {
+    return this.client.getDel(key);
+  }
+
   async incrementCounter(key: string, seconds: number): Promise<unknown> {
     return this.client.eval(incrementWithExpiry, {
       keys: [key],
